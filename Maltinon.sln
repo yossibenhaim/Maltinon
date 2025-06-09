@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36025.13 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Maltinon", "Maltinon\Maltinon.csproj", "{F43E98EC-D4EF-4382-8DF0-8BA8A2BF1578}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F43E98EC-D4EF-4382-8DF0-8BA8A2BF1578}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F43E98EC-D4EF-4382-8DF0-8BA8A2BF1578}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F43E98EC-D4EF-4382-8DF0-8BA8A2BF1578}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F43E98EC-D4EF-4382-8DF0-8BA8A2BF1578}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0C36FD94-5D44-45A3-B9D2-1E1DF3CE0934}
+	EndGlobalSection
+EndGlobal
