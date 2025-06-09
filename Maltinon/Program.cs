@@ -10,6 +10,9 @@ namespace Maltinon
     {
         static void Main(string[] args)
         {
+            DAL dal = new DAL();
+
+
         }
     }
 }
