@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Mysqlx.Expect.Open.Types.Condition.Types;
 
 namespace Maltinon
 {
@@ -11,14 +12,11 @@ namespace Maltinon
         static void Main(string[] args)
         {
             DAL dal = new DAL();
-            menager menager = new menager();
             menu menu = new menu();
-            dal.GetQuery(dal.GetPromtForAddReports("informant01", "Ali Ahmad", "sbizdn zdb bcb d d zdb j"));
-            dal.GetQuery(dal.GetPromtForAddReports("informant01", "Ali Ahmad", "sbizdn zdb bcb d d zdb j"));
-            dal.GetQuery(dal.GetPromtForAddReports("informant01", "Ali Ahmad", "sbizdn zdb bcb d d zdb j"));
-
             menu.startNemu();
-            Console.WriteLine(menager.CheckExistingUser("wasg", "informants"));
+
+
+
         }
     }
 }
