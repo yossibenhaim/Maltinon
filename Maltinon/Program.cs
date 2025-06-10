@@ -13,8 +13,11 @@ namespace Maltinon
             DAL dal = new DAL();
             menager menager = new menager();
             menu menu = new menu();
-            menu.startNemu();
+            dal.GetQuery(dal.GetPromtForAddReports("informant01", "Ali Ahmad", "sbizdn zdb bcb d d zdb j"));
+            dal.GetQuery(dal.GetPromtForAddReports("informant01", "Ali Ahmad", "sbizdn zdb bcb d d zdb j"));
+            dal.GetQuery(dal.GetPromtForAddReports("informant01", "Ali Ahmad", "sbizdn zdb bcb d d zdb j"));
 
+            menu.startNemu();
             Console.WriteLine(menager.CheckExistingUser("wasg", "informants"));
         }
     }

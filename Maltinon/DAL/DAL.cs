@@ -42,27 +42,27 @@ namespace Maltinon
             return respose;
         }
 
-        public string getPromtForAddTerorrist(string name)
+        public string GetPromtForAddTerorrist(string name)
         {
             string query = "INSERT INTO terorrists " +
                 "(name)" +
                 $" VALUES ('{name}');";
             return query;
         }
-        public string getPromtForAddInformants(string userName, string name)
+        public string GetPromtForAddInformants(string userName, string name)
         {
             string query = "INSERT INTO informants" +
-                "(userName, name, amountWhistleblowing)" +
+                "(userName, name)" +
                 $"VALUES ('{userName}', '{name}');";
             return query;
         }
-        public string getPromtForAddReports(string userName, string nameTerorrist, string text)
+        public string GetPromtForAddReports(string userName, string nameTerorrist, string text)
         {
             string query = $"INSERT INTO reports (informantsId, terorristsId, report)" +
                 $"VALUES ('{userName}', '{nameTerorrist}', '{text}');";
             return query;
         }
-        public string getPromtForReturnReports()
+        public string GetPromtForReturnReports()
         {
             string query = "SELECT  i.name AS informantName, " +
                 "t.name AS terroristName, r.report," +
@@ -71,19 +71,20 @@ namespace Maltinon
                 "JOIN terorrists t ON r.terorristsId = t.id;";
             return query;
         }
-        public string CheckExistingUser(string userName, string teble) 
+        public string GEtCheckExistingUser(string userName, string teble) 
         {
             string query = $"SELECT 1 FROM {teble} WHERE userName = '{userName}' OR id = '{userName}' LIMIT 1;";
             return query;
         }
-        public string CheckUserAgnt(string userName) 
+        public string GetCheckUserAgnt(string userName) 
         {
             string query = $"SELECT 1 FROM agents WHERE userName = '{userName}' LIMIT 1;";
             return query;
         }
-
-        
-
-
+        public string GetCandidateEligibilityQuery(string userName)
+        {
+            string query = "";
+            return query;
+        }
     }
 }
