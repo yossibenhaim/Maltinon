@@ -96,6 +96,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DAL\DAL.cs" />
+    <Compile Include="DAL\SqlQueryBuilder.cs" />
     <Compile Include="menager.cs" />
     <Compile Include="menu.cs" />
     <Compile Include="Program.cs" />
@@ -103,7 +104,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

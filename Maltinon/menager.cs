@@ -8,33 +8,91 @@ namespace Maltinon
 {
     internal class menager
     {
-        DAL DAL = new DAL();
-        public bool CheckExistingUser(string userName, string teble)
+        SqlQueryBuilder builder;
+        DAL dal;
+
+        public menager()
         {
-            if (DAL.GetQuery(DAL.CheckExistingUser(userName,teble)).Count > 0)
-            {
-                return true;
-            }
-            else { return false; }
+            dal = new DAL();
+            builder = new SqlQueryBuilder();
         }
 
-        public bool CheckUserAgent(string userName)
+
+        public string CheckExistingUser(string pseudonym)
         {
-            if (DAL.GetQuery(DAL.CheckUserAgnt(userName)).Count > 0)
+            List<Dictionary<string, string>> resphon = dal.GetQuery(builder.GetPromptCheckExistingUser(pseudonym));
+            if (resphon.Count > 0)
             {
-                return true;
+                Console.WriteLine(resphon[0]["status"]);
+                return resphon[0]["status"];
             }
-            else { return false; }
+            else { return ""; }
         }
+
+        public bool CheckIfAgent(string pseudonym)
+        {
+            switch (pseudonym)
+            {
+                case "agent":
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+
+
         public void startAgent()
         {
             Console.WriteLine("send user name");
             string userName = Console.ReadLine();
-            if (CheckUserAgent(userName))
+
+        }
+
+
+
+
+        public void printResophns()
+        {
+
+            List<Dictionary<string, string>> a = dal.GetQuery(builder.GetPromptForReturnReports());
+
+            if (a.Count > 0)
             {
+                foreach (string key in a[0].Keys)
+                {
+                    Console.Write(key + "                   ");
+                }
+                Console.WriteLine();
+                foreach (Dictionary<string, string> dict in a)
+                {
+                    foreach (string value in dict.Values)
+                    {
+                        Console.Write(value + "                   ");
+
+                    }
+                    Console.WriteLine();
+                }
 
             }
         }
-        
+
+        public void UpdeteCandidateEligibility()
+        {
+            List<Dictionary<string, string>> CandidateEligibility = dal.GetQuery(builder.GetCandidateEligibilityQuery());
+            foreach(Dictionary<string,string> dict in CandidateEligibility)
+            {
+                Console.WriteLine(dict["pseudonym"]);
+                dal.SendQuery(builder.UpdeteToAgent(dict["pseudonym"]));
+            }
+        } 
+
+        public void AddRepoert()
+        {
+            Console.WriteLine("Enter your text:");
+            string text = Console.ReadLine();
+            dal.SendQuery(builder.GetPromptForAddReport(,,text))
+        }
+
     }
 }

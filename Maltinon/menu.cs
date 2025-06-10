@@ -10,10 +10,14 @@ namespace Maltinon
     internal class menu
     {
         menager menager;
+        DAL dal;
+        SqlQueryBuilder builder;
 
         public menu()
         {
             menager = new menager();
+            dal = new DAL();
+            builder = new SqlQueryBuilder();
         }
 
 
@@ -25,8 +29,12 @@ namespace Maltinon
 
             while (run)
             {
-                Console.WriteLine("send a number");
+
+                StartUsers();
+
+                Console.WriteLine("Enter ");
                 string choiceStr;
+
 
                 while (true)
                 {
@@ -60,7 +68,12 @@ namespace Maltinon
 
             while (run)
             {
-                Console.WriteLine("Press 1 for a list of potential recruits\r\nPress 2 for a list of suspected agents\r\nPress 3 to exit");
+
+                Console.WriteLine(
+                    "Press 1 for a list of potential recruits\r\n" +
+                    "Press 2 for a list of suspected agents\r\n" +
+                    "Press 3 to exit");
+
                 string choiceStr = Console.ReadLine();
 
                 while (true)
@@ -85,6 +98,36 @@ namespace Maltinon
                 }
 
             }
+        }
+
+        public string StartUsers()
+        {
+            Console.WriteLine("Enter a pseudonym");
+            string pseudonym = Console.ReadLine();
+            string status = menager.CheckExistingUser(pseudonym);
+            if (status.Length == 0)
+            {
+                return CreatUser(); 
+            }
+            else
+            {
+                if (menager.CheckIfAgent(status))
+                {
+                    menuAgent();
+                }
+                return pseudonym;
+            }
+        }
+        
+        public string CreatUser()
+        {
+            Console.WriteLine("Enter a last name");
+            string lastName = Console.ReadLine();
+            Console.WriteLine("Enter a first name");
+            string firstName = Console.ReadLine();
+            string pseudonym = $"@{lastName[0]}&{firstName[0]}";
+            dal.SendQuery(builder.GetPromptForAddPerson(firstName, lastName ,pseudonym, "infomant"));
+            return pseudonym;
         }
     }
 }
