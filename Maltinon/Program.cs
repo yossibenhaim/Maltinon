@@ -11,8 +11,11 @@ namespace Maltinon
         static void Main(string[] args)
         {
             DAL dal = new DAL();
+            menager menager = new menager();
+            menu menu = new menu();
+            menu.startNemu();
 
-
+            Console.WriteLine(menager.CheckExistingUser("wasg", "informants"));
         }
     }
 }

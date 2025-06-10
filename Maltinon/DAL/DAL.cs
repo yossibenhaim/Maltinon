@@ -1,21 +1,26 @@
-﻿using System;
-using MySql;
+﻿using MySql;
+using MySql.Data.MySqlClient;
+using MySqlX.XDevAPI.Relational;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
-using MySql.Data.MySqlClient;
-using System.Reflection.Emit;
 
 namespace Maltinon
 {
     internal class DAL
     {
-
-        public void connection(string query)
+        public string connStr = "server=localhost;userName=root;password=;database=Malsinon";
+        MySqlConnection conn;
+        public DAL()
         {
-            string connStr = "server=localhost;userName=root;password=;database=Malsinon";
-            MySqlConnection conn = new MySqlConnection(connStr);
+            conn = new MySqlConnection(connStr);
+        }
+
+        public List<Dictionary<string, string>> GetQuery(string query)
+        {
 
             conn.Open();
 
@@ -23,35 +28,38 @@ namespace Maltinon
 
             MySqlDataReader reader = command.ExecuteReader();
 
+            List<Dictionary<string, string>> respose = new List<Dictionary<string, string>>();
+
             while (reader.Read())
             {
+                Dictionary<string, string> dict = new Dictionary<string, string>();
                 for (int i = 0; i < reader.FieldCount; i++)
                 {
-                    Console.WriteLine(reader.GetName(i));
-                    Console.WriteLine(reader.GetValue(i));
-
-                }
+                    dict[reader.GetName(i)] = reader.GetValue(i).ToString();
+                }respose.Add(dict);
             }
+            conn.Close();
+            return respose;
         }
 
-        public string getPromtForAddTerorrist()
+        public string getPromtForAddTerorrist(string name)
         {
             string query = "INSERT INTO terorrists " +
-                "(name, QuantityIntelligenceReports)" +
-                " VALUES ('Ali Ahmad', 3);";
+                "(name)" +
+                $" VALUES ('{name}');";
             return query;
         }
-        public string getPromtForAddInformants()
+        public string getPromtForAddInformants(string userName, string name)
         {
-            string query = "INSERT INTO informants " +
+            string query = "INSERT INTO informants" +
                 "(userName, name, amountWhistleblowing)" +
-                "VALUES ('informant01', 'David Cohen', 5);";
+                $"VALUES ('{userName}', '{name}');";
             return query;
         }
-        public string getPromtForAddReports()
+        public string getPromtForAddReports(string userName, string nameTerorrist, string text)
         {
-            string query = "INSERT INTO reports (informantsId, terorristsId, report)" +
-                "VALUES (1, 1, 'The suspect is planning a major operation next week.');";
+            string query = $"INSERT INTO reports (informantsId, terorristsId, report)" +
+                $"VALUES ('{userName}', '{nameTerorrist}', '{text}');";
             return query;
         }
         public string getPromtForReturnReports()
@@ -63,5 +71,19 @@ namespace Maltinon
                 "JOIN terorrists t ON r.terorristsId = t.id;";
             return query;
         }
+        public string CheckExistingUser(string userName, string teble) 
+        {
+            string query = $"SELECT 1 FROM {teble} WHERE userName = '{userName}' OR id = '{userName}' LIMIT 1;";
+            return query;
+        }
+        public string CheckUserAgnt(string userName) 
+        {
+            string query = $"SELECT 1 FROM agents WHERE userName = '{userName}' LIMIT 1;";
+            return query;
+        }
+
+        
+
+
     }
 }
