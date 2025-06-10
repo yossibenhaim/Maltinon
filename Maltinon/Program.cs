@@ -13,6 +13,7 @@ namespace Maltinon
         {
             DAL dal = new DAL();
             menu menu = new menu();
+            menager menager = new menager();
             menu.startNemu();
 
 

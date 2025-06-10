@@ -69,7 +69,11 @@ namespace Maltinon
             while (run)
             {
 
-                Console.WriteLine("Press 1 for a list of potential recruits\r\nPress 2 for a list of suspected agents\r\nPress 3 to exit");
+                Console.WriteLine(
+                    "Press 1 for a list of potential recruits\r\n" +
+                    "Press 2 for a list of suspected agents\r\n" +
+                    "Press 3 to exit");
+
                 string choiceStr = Console.ReadLine();
 
                 while (true)

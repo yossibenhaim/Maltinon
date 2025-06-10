@@ -77,14 +77,22 @@ namespace Maltinon
             }
         }
 
-        public void UpdeteCandidateEligibility(string pseudonym)
+        public void UpdeteCandidateEligibility()
         {
             List<Dictionary<string, string>> CandidateEligibility = dal.GetQuery(builder.GetCandidateEligibilityQuery());
             foreach(Dictionary<string,string> dict in CandidateEligibility)
             {
-                dal.SendQuery(builder.UpdeteToAgent(pseudonym));
+                Console.WriteLine(dict["pseudonym"]);
+                dal.SendQuery(builder.UpdeteToAgent(dict["pseudonym"]));
             }
         } 
+
+        public void AddRepoert()
+        {
+            Console.WriteLine("Enter your text:");
+            string text = Console.ReadLine();
+            dal.SendQuery(builder.GetPromptForAddReport(,,text))
+        }
 
     }
 }
