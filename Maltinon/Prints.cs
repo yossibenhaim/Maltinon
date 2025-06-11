@@ -35,8 +35,9 @@ namespace Maltinon
             Console.WriteLine("╠══════════════════════════════════════╣");
             Console.WriteLine("║ 1 → View potential recruits          ║");
             Console.WriteLine("║ 2 → View suspected agents            ║");
-            Console.WriteLine("║ 3 → Show my secret code name         ║");
-            Console.WriteLine("║ 4 → Exit                             ║");
+            Console.WriteLine("║ 3 → Show dangerous targets           ║");
+            Console.WriteLine("║ 4 → Show my secret code name         ║");
+            Console.WriteLine("║ 5 → Exit                             ║");
             Console.WriteLine("╚══════════════════════════════════════╝");
         }
         public static void ShowMenuCandidateEligibility()
