@@ -109,14 +109,10 @@ namespace Maltinon
         }
 
         public string FindLastNameInRepoert(string report)
-        {
-            return report.Split()[0];
-        }
+        { return report.Split()[0]; }
 
         public string FindFirstNameInRepoert(string report)
-        {
-            return report.Split()[1];
-        }
+        { return report.Split()[1]; }
 
         public string GetNameForPseudonym(string pseudonym)
         {
@@ -132,10 +128,8 @@ namespace Maltinon
 
         public string CreatUser()
         {
-            Console.Write("Enter last name: ");
-            string lastName = Console.ReadLine();
-            Console.Write("Enter first name: ");
-            string firstName = Console.ReadLine();
+            string firstName = EnterFirstName();
+            string lastName = EnterLastName();
 
             var existing = dal.GetQuery(builder.GetPromtToReturnIdByName(firstName, lastName));
             if (existing.Count > 0)
@@ -200,10 +194,9 @@ namespace Maltinon
         public void PrintPseudonym()
         {
             Console.WriteLine("\n🔎 Find Pseudonym by Name");
-            Console.Write("Enter first name: ");
-            string firstName = Console.ReadLine();
-            Console.Write("Enter last name: ");
-            string lastName = Console.ReadLine();
+
+            string firstName = EnterFirstName();
+            string lastName = EnterLastName();
 
             var data = dal.GetQuery(builder.GetPromtToReturnIdByName(firstName, lastName));
             if (data.Count == 0)
@@ -215,5 +208,18 @@ namespace Maltinon
                 Console.WriteLine($"🆔 Pseudonym: {data[0]["pseudonym"]}");
             }
         }
+        public string EnterFirstName()
+        {
+            Console.Write("Enter first name: ");
+            string firstName = Console.ReadLine();
+            return firstName;
+        }
+        public string EnterLastName()
+        {
+            Console.Write("Enter last name: ");
+            string lastName = Console.ReadLine();
+            return lastName;
+        }
+
     }
 }
