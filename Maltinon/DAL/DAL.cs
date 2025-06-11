@@ -46,6 +46,7 @@ namespace Maltinon
             }catch (Exception e)
             {
                 Console.WriteLine(e.Message);
+                conn.Close();
                 return new List<Dictionary<string, string>>();
             }
         }

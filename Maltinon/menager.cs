@@ -105,7 +105,6 @@ namespace Maltinon
             string lastName = FindLastNameInRepoert(text);
             string firstName = FindFirstNameInRepoert(text);
             text = string.Join(" ", text.Split().Skip(2));
-            Console.WriteLine(text);
             string accusedpseudonym = GetPseudonymForName(lastName, firstName);
             dal.SendQuery(builder.GetPromptForAddReport(informerPseudonym, accusedpseudonym, text));
             Console.WriteLine("✅ Report submitted successfully. Thank you!");
