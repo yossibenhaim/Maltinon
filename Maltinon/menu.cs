@@ -16,7 +16,7 @@ namespace Maltinon
             menager = new menager();
         }
 
-        public string StartUsers()
+        public string MenuLogin()
         {
             Prints.ShowStartUsers();
 
@@ -41,10 +41,10 @@ namespace Maltinon
             bool run = true;
             int choice;
 
-            string pseudonym = StartUsers();
+            string pseudonym = MenuLogin();
             while (run)
             {
-                Prints.ShowStartMenu();
+                Prints.ShowMenuLogin();
 
                 string choiceStr;
 
@@ -71,7 +71,7 @@ namespace Maltinon
                         menager.PrintPseudonym();
                         break;
                     case 3:
-                        pseudonym = StartUsers();
+                        pseudonym = MenuLogin();
                         break;
                     case 4:
                         run = false;

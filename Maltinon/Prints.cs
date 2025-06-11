@@ -17,7 +17,7 @@ namespace Maltinon
             Console.WriteLine("║ Please enter your secret code name below ║");
             Console.WriteLine("╚══════════════════════════════════════════╝");
         }
-        public static void ShowStartMenu()
+        public static void ShowMenuLogin()
         {
             Console.WriteLine("\n╔═══════════════════════════════════╗");
             Console.WriteLine("║       Main Menu – Choose Option   ║");
