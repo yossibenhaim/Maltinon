@@ -15,14 +15,14 @@ namespace Maltinon
             return query;
         }
 
-        public string GetPromptForAddReport(int informerId, int accusedId, string reportText)
+        public string GetPromptForAddReport(string informerPseudonym, string accusedPseudonym, string reportText)
         {
-            string query = "INSERT INTO reports (informer_id, accused_id, report) " +
-                           $"VALUES ({informerId}, {accusedId}, '{reportText}');";
+            string query = "INSERT INTO reports (informer_pseudonym , accused_pseudonym , report) " +
+                           $"VALUES ('{informerPseudonym}', '{accusedPseudonym}', '{reportText}');";
             return query;
         }
 
-        public string GetPromptForReturnReports()
+        public string GetPromptForReturnRepoerts()
         {
             return "SELECT * FROM reports;";
         }
@@ -38,7 +38,7 @@ namespace Maltinon
         {
             string query = "SELECT p.pseudonym, AVG(CHAR_LENGTH(r.report)) AS avg_length " +
                            "FROM people p " +
-                           "JOIN reports r ON r.informer_id = p.id " + 
+                           "JOIN reports r ON r.informer_pseudonym  = p.id " + 
                            "GROUP BY p.id, p.pseudonym " + 
                            "HAVING avg_length > 20 " +
                            "AND p.status != 'agent' "+
@@ -52,16 +52,18 @@ namespace Maltinon
                 "UPDATE people\r\n" +
                 "SET status = 'agent'\r\n" +
                 $"WHERE pseudonym = '{pseudonym}';";
-
             return query;
         }
 
         public string GetPromtToReturnIdByPseudonym(string pseudonym)
         {
-            string query = $"SELECT id FROM people WHERE pseudonym = '{pseudonym}' LIMIT 1;";
+            string query = $"SELECT * FROM people WHERE pseudonym = '{pseudonym}';";
             return query;
-
         }
-
+        public string GetPromtToReturnIdByName(string lastName, string firstName)
+        {
+            string query = $"SELECT pseudonym FROM people WHERE lastName = '{lastName}' AND firstName = '{firstName}';";
+            return query;
+        }
     }
 }
