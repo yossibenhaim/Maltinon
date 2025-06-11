@@ -123,9 +123,12 @@ namespace Maltinon
                         MenuCandidateEligibility();
                         break;
                     case 3:
-                        menager.PrintPseudonym();
+                        menager.PrintDangerousTargets();
                         break;
                     case 4:
+                        menager.PrintPseudonym();
+                        break;
+                    case 5:
                         run = false;
                         Console.ForegroundColor = ConsoleColor.Green;
                         Console.WriteLine("✔ Exiting Agent Mode. Logged out.");

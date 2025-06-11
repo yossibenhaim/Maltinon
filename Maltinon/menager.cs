@@ -60,6 +60,7 @@ namespace Maltinon
                     foreach (string value in dict.Values)
                         Console.Write($"{value,-20}");
                     Console.WriteLine();
+                    Console.WriteLine();
                 }
             }
             else
@@ -93,7 +94,7 @@ namespace Maltinon
             Console.WriteLine("\n======================");
             Console.WriteLine("📋 Report Submission");
             Console.WriteLine("======================");
-            Console.Write("Enter your report (at least 3 words): ");
+            Console.Write("Enter at least 3 words: first name, last name, then the report – all separated by spaces: ");
             string text = Console.ReadLine();
             while (text.Split().Length < 3)
             {
@@ -103,6 +104,8 @@ namespace Maltinon
             }
             string lastName = FindLastNameInRepoert(text);
             string firstName = FindFirstNameInRepoert(text);
+            text = string.Join(" ", text.Split().Skip(2));
+            Console.WriteLine(text);
             string accusedpseudonym = GetPseudonymForName(lastName, firstName);
             dal.SendQuery(builder.GetPromptForAddReport(informerPseudonym, accusedpseudonym, text));
             Console.WriteLine("✅ Report submitted successfully. Thank you!");
@@ -219,6 +222,10 @@ namespace Maltinon
             Console.Write("Enter last name: ");
             string lastName = Console.ReadLine();
             return lastName;
+        }
+        public void PrintDangerousTargets()
+        {
+            PrintData(dal.GetQuery(builder.GetPromtReturnDangerousTargets()));
         }
 
     }
