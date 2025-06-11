@@ -99,6 +99,7 @@
     <Compile Include="DAL\SqlQueryBuilder.cs" />
     <Compile Include="menager.cs" />
     <Compile Include="menu.cs" />
+    <Compile Include="Prints.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
