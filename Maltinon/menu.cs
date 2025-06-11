@@ -10,104 +10,25 @@ namespace Maltinon
     internal class menu
     {
         menager menager;
-        DAL dal;
-        SqlQueryBuilder builder;
 
         public menu()
         {
             menager = new menager();
-            dal = new DAL();
-            builder = new SqlQueryBuilder();
-        }
-
-
-        public void startNemu()
-        {
-            
-            bool run = true;
-            int choice;
-
-            while (run)
-            {
-
-                StartUsers();
-
-                Console.WriteLine("Enter ");
-                string choiceStr;
-
-
-                while (true)
-                {
-                    choiceStr = Console.ReadLine();
-
-                    try
-                    {
-                        choice = int.Parse(choiceStr);
-                        break;
-                    }
-                    catch { Console.WriteLine("plese send a number!"); }
-                }
-
-                switch (choice)
-                {
-                    case 1:
-                        menager.startAgent();
-                        break;
-                    case 2:
-                        run = false;
-                        break;
-                }
-
-            }
-        }
-
-        public void menuAgent()
-        {
-            bool run = true;
-            int choice;
-
-            while (run)
-            {
-
-                Console.WriteLine(
-                    "Press 1 for a list of potential recruits\r\n" +
-                    "Press 2 for a list of suspected agents\r\n" +
-                    "Press 3 to exit");
-
-                string choiceStr = Console.ReadLine();
-
-                while (true)
-                {
-                    try
-                    {
-                        choice = int.Parse(choiceStr);
-                        break;
-                    }
-                    catch { Console.WriteLine("plese send a number!"); }
-                }
-
-                switch (choice)
-                {
-                    case 1:
-                        run = false;
-                        break;
-                    case 2:
-                        break;
-                    case 3:
-                        break;
-                }
-
-            }
         }
 
         public string StartUsers()
         {
-            Console.WriteLine("Enter a pseudonym");
+            Console.WriteLine("╔══════════════════════════════════════════╗");
+            Console.WriteLine("║     Welcome to the Whistleblowing Hub    ║");
+            Console.WriteLine("╠══════════════════════════════════════════╣");
+            Console.WriteLine("║ Please enter your secret code name below ║");
+            Console.WriteLine("╚══════════════════════════════════════════╝");
+
             string pseudonym = Console.ReadLine();
             string status = menager.CheckExistingUser(pseudonym);
             if (status.Length == 0)
             {
-                return CreatUser(); 
+                return menager.CreatUser();
             }
             else
             {
@@ -118,16 +39,178 @@ namespace Maltinon
                 return pseudonym;
             }
         }
-        
-        public string CreatUser()
+
+        public void startNemu()
         {
-            Console.WriteLine("Enter a last name");
-            string lastName = Console.ReadLine();
-            Console.WriteLine("Enter a first name");
-            string firstName = Console.ReadLine();
-            string pseudonym = $"@{lastName[0]}&{firstName[0]}";
-            dal.SendQuery(builder.GetPromptForAddPerson(firstName, lastName ,pseudonym, "infomant"));
-            return pseudonym;
+            bool run = true;
+            int choice;
+
+            string pseudonym = StartUsers();
+            while (run)
+            {
+                Console.WriteLine("\n╔═══════════════════════════════════╗");
+                Console.WriteLine("║       Main Menu – Choose Option   ║");
+                Console.WriteLine("╠═══════════════════════════════════╣");
+                Console.WriteLine("║ 1 → Add an intelligence report    ║");
+                Console.WriteLine("║ 2 → Get your secret name          ║");
+                Console.WriteLine("║ 3 → Switch user                   ║");
+                Console.WriteLine("║ 4 → Exit                          ║");
+                Console.WriteLine("╚═══════════════════════════════════╝");
+
+                string choiceStr;
+
+                while (true)
+                {
+                    choiceStr = Console.ReadLine();
+                    try
+                    {
+                        choice = int.Parse(choiceStr);
+                        break;
+                    }
+                    catch
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("⚠ Error: Please enter a valid number.");
+                        Console.ResetColor();
+                        Console.Write("↺ Try again: ");
+                    }
+                }
+
+                switch (choice)
+                {
+                    case 1:
+                        menager.AddRepoert(pseudonym);
+                        break;
+                    case 2:
+                        menager.PrintPseudonym();
+                        break;
+                    case 3:
+                        pseudonym = StartUsers();
+                        break;
+                    case 4:
+                        run = false;
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine("✔ Exiting the system. Stay safe!");
+                        Console.ResetColor();
+                        break;
+                    default:
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.WriteLine("ℹ Please choose a number between 1 and 4.");
+                        Console.ResetColor();
+                        break;
+                }
+            }
+        }
+
+        public void menuAgent()
+        {
+            bool run = true;
+            int choice;
+
+            while (run)
+            {
+                Console.WriteLine("\n╔══════════════════════════════════════╗");
+                Console.WriteLine("║       Agent Menu – Classified Zone   ║");
+                Console.WriteLine("╠══════════════════════════════════════╣");
+                Console.WriteLine("║ 1 → View potential recruits          ║");
+                Console.WriteLine("║ 2 → View suspected agents            ║");
+                Console.WriteLine("║ 3 → Show my secret code name         ║");
+                Console.WriteLine("║ 4 → Exit                             ║");
+                Console.WriteLine("╚══════════════════════════════════════╝");
+
+                string choiceStr = Console.ReadLine();
+
+                while (true)
+                {
+                    try
+                    {
+                        choice = int.Parse(choiceStr);
+                        break;
+                    }
+                    catch
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("⚠ Error: Please enter a valid number.");
+                        Console.ResetColor();
+                        Console.Write("↺ Try again: ");
+                    }
+                }
+
+                switch (choice)
+                {
+                    case 1:
+                        menager.PrintResophns();
+                        break;
+                    case 2:
+                        menager.PrintCandidateEligibility();
+                        MenuCandidateEligibility();
+                        break;
+                    case 3:
+                        menager.PrintPseudonym();
+                        break;
+                    case 4:
+                        run = false;
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine("✔ Exiting Agent Mode. Logged out.");
+                        Console.ResetColor();
+                        break;
+                    default:
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.WriteLine("ℹ Please choose a number between 1 and 4.");
+                        Console.ResetColor();
+                        break;
+                }
+            }
+        }
+
+        public void MenuCandidateEligibility()
+        {
+            Console.WriteLine("\n╔════════════════════════════════════════════╗");
+            Console.WriteLine("║   Candidate Promotion – Select Action      ║");
+            Console.WriteLine("╠════════════════════════════════════════════╣");
+            Console.WriteLine("║ 1 → Promote all candidates to Agent        ║");
+            Console.WriteLine("║ 2 → Promote a specific candidate           ║");
+            Console.WriteLine("║ 3 → Cancel                                 ║");
+            Console.WriteLine("╚════════════════════════════════════════════╝");
+
+            int choice;
+            string choiceStr = Console.ReadLine();
+
+            while (true)
+            {
+                try
+                {
+                    choice = int.Parse(choiceStr);
+                    break;
+                }
+                catch
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("⚠ Error: Please enter a valid number.");
+                    Console.ResetColor();
+                    Console.Write("↺ Try again: ");
+                }
+            }
+
+            switch (choice)
+            {
+                case 1:
+                    menager.UpdeteCandidateEligibility();
+                    break;
+                case 2:
+                    menager.UpdeteStatusToAgent();
+                    break;
+                case 3:
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    Console.WriteLine("↩ Action cancelled.");
+                    Console.ResetColor();
+                    break;
+                default:
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine("ℹ Please choose a number between 1 and 3.");
+                    Console.ResetColor();
+                    break;
+            }
         }
     }
 }

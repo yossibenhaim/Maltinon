@@ -24,34 +24,47 @@ namespace Maltinon
 
             conn.Open();
 
-            MySqlCommand command = new MySqlCommand(query, conn);
-
-            MySqlDataReader reader = command.ExecuteReader();
-
-            List<Dictionary<string, string>> respose = new List<Dictionary<string, string>>();
-
-            while (reader.Read())
+            try
             {
-                Dictionary<string, string> dict = new Dictionary<string, string>();
-                for (int i = 0; i < reader.FieldCount; i++)
+                MySqlCommand command = new MySqlCommand(query, conn);
+
+                MySqlDataReader reader = command.ExecuteReader();
+
+                List<Dictionary<string, string>> respose = new List<Dictionary<string, string>>();
+
+                while (reader.Read())
                 {
-                    Console.WriteLine(reader.GetName(i));
-                    dict[reader.GetName(i)] = reader.GetValue(i).ToString();
+                    Dictionary<string, string> dict = new Dictionary<string, string>();
+                    for (int i = 0; i < reader.FieldCount; i++)
+                    {
+                        dict[reader.GetName(i)] = reader.GetValue(i).ToString();
+                    }
+                    respose.Add(dict);
                 }
-                respose.Add(dict);
+                conn.Close();
+                return respose;
+            }catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return new List<Dictionary<string, string>>();
             }
-            conn.Close();
-            return respose;
         }
 
         public void SendQuery(string query)
         {
 
             conn.Open();
+            try
+            {
+                MySqlCommand command = new MySqlCommand(query, conn);
 
-            MySqlCommand command = new MySqlCommand(query, conn);
-
-            command.ExecuteNonQuery();
+                command.ExecuteNonQuery();
+                conn.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
     }
 }
