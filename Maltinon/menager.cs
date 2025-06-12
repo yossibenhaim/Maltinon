@@ -11,18 +11,14 @@ namespace Maltinon
 {
     internal class menager
     {
-        SqlQueryBuilder builder;
         DAL dal;
-
         public menager()
         {
             dal = new DAL();
-            builder = new SqlQueryBuilder();
         }
-
         public string CheckExistingUser(string pseudonym)
         {
-            List<Dictionary<string, string>> resphon = dal.GetQuery(builder.GetPromptCheckExistingUser(pseudonym));
+            List<Dictionary<string, string>> resphon = dal.GetQuery(SqlQueryBuilder.GetPromptCheckExistingUser(pseudonym));
             if (resphon.Count > 0)
                 return resphon[0]["status"];
             else
@@ -72,20 +68,20 @@ namespace Maltinon
         public void PrintResophns()
         {
             Console.WriteLine("\n📥 Fetching Reports...");
-            PrintData(dal.GetQuery(builder.GetPromptForReturnRepoerts()));
+            PrintData(dal.GetQuery(SqlQueryBuilder.GetPromptForReturnRepoerts()));
         }
 
         public void PrintCandidateEligibility()
         {
             Console.WriteLine("\n📋 Candidate Eligibility List:");
-            PrintData(dal.GetQuery(builder.GetCandidateEligibilityQuery()));
+            PrintData(dal.GetQuery(SqlQueryBuilder.GetCandidateEligibilityQuery()));
         }
 
         public void UpdeteCandidateEligibility()
         {
-            List<Dictionary<string, string>> list = dal.GetQuery(builder.GetCandidateEligibilityQuery());
+            List<Dictionary<string, string>> list = dal.GetQuery(SqlQueryBuilder.GetCandidateEligibilityQuery());
             foreach (Dictionary<string, string> dict in list)
-                dal.SendQuery(builder.UpdeteToAgent(dict["pseudonym"]));
+                Logs.SendLog(SqlQueryBuilder.UpdeteToAgent(dict["pseudonym"]));
             Console.WriteLine("✅ Candidate eligibility updated.");
         }
 
@@ -106,7 +102,7 @@ namespace Maltinon
             string firstName = FindFirstNameInRepoert(text);
             text = string.Join(" ", text.Split().Skip(2));
             string accusedpseudonym = GetPseudonymForName(lastName, firstName);
-            dal.SendQuery(builder.GetPromptForAddReport(informerPseudonym, accusedpseudonym, text));
+            Logs.SendLog(SqlQueryBuilder.GetPromptForAddReport(informerPseudonym, accusedpseudonym, text));
             Console.WriteLine("✅ Report submitted successfully. Thank you!");
         }
 
@@ -118,13 +114,13 @@ namespace Maltinon
 
         public string GetNameForPseudonym(string pseudonym)
         {
-            var data = dal.GetQuery(builder.GetPromtToReturnIdByPseudonym(pseudonym));
+            var data = dal.GetQuery(SqlQueryBuilder.GetPromtToReturnIdByPseudonym(pseudonym));
             return data[0]["firstName"] + " " + data[0]["lastName"];
         }
 
         public string GetPseudonymForName(string lastName, string firstName)
         {
-            var data = dal.GetQuery(builder.GetPromtToReturnIdByName(lastName, firstName));
+            var data = dal.GetQuery(SqlQueryBuilder.GetPromtToReturnIdByName(lastName, firstName));
             return data.Count > 0 ? data[0]["pseudonym"] : CreatUserWhitName(firstName, lastName);
         }
 
@@ -133,7 +129,7 @@ namespace Maltinon
             string firstName = EnterFirstName();
             string lastName = EnterLastName();
 
-            var existing = dal.GetQuery(builder.GetPromtToReturnIdByName(firstName, lastName));
+            var existing = dal.GetQuery(SqlQueryBuilder.GetPromtToReturnIdByName(firstName, lastName));
             if (existing.Count > 0)
             {
                 string pseudonym = GetPseudonymForName(lastName, firstName);
@@ -142,7 +138,7 @@ namespace Maltinon
             }
 
             string newPseudo = GeneratePseudonym(firstName, lastName);
-            dal.SendQuery(builder.GetPromptForAddPerson(firstName, lastName, newPseudo, "infomant"));
+            Logs.SendLog(SqlQueryBuilder.GetPromptForAddPerson(firstName, lastName, newPseudo, "infomant"));
             Console.WriteLine($"✅ New pseudonym created: {newPseudo}");
             return newPseudo;
         }
@@ -150,7 +146,7 @@ namespace Maltinon
         public string CreatUserWhitName(string firstName, string lastName)
         {
             string pseudonym = GeneratePseudonym(firstName, lastName);
-            dal.SendQuery(builder.GetPromptForAddPerson(firstName, lastName, pseudonym, "infomant"));
+            Logs.SendLog(SqlQueryBuilder.GetPromptForAddPerson(firstName, lastName, pseudonym, "infomant"));
             return pseudonym;
         }
 
@@ -177,7 +173,7 @@ namespace Maltinon
                 string pseudonym = Console.ReadLine();
                 if (CheckIfAgent(pseudonym))
                 {
-                    dal.SendQuery(builder.UpdeteToAgent(pseudonym));
+                    Logs.SendLog(SqlQueryBuilder.UpdeteToAgent(pseudonym));
                     Console.WriteLine("✅ Status updated to agent.");
                     break;
                 }
@@ -200,7 +196,7 @@ namespace Maltinon
             string firstName = EnterFirstName();
             string lastName = EnterLastName();
 
-            var data = dal.GetQuery(builder.GetPromtToReturnIdByName(firstName, lastName));
+            var data = dal.GetQuery(SqlQueryBuilder.GetPromtToReturnIdByName(firstName, lastName));
             if (data.Count == 0)
             {
                 Console.WriteLine("❌ Error: Person not found in database.");
@@ -224,7 +220,7 @@ namespace Maltinon
         }
         public void PrintDangerousTargets()
         {
-            PrintData(dal.GetQuery(builder.GetPromtReturnDangerousTargets()));
+            PrintData(dal.GetQuery(SqlQueryBuilder.GetPromtReturnDangerousTargets()));
         }
 
     }

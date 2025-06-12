@@ -8,35 +8,35 @@ using System.Threading.Tasks;
 
 namespace Maltinon
 {
-    internal class SqlQueryBuilder
+    internal static class SqlQueryBuilder
     {
-        public string GetPromptForAddPerson(string firstName, string lastName, string pseudonym, string status)
+        public static string GetPromptForAddPerson(string firstName, string lastName, string pseudonym, string status)
         {
             string query = "INSERT INTO people (firstName, lastName, pseudonym, status) " +
                            $"VALUES ('{firstName}', '{lastName}', '{pseudonym}', '{status}');";
             return query;
         }
 
-        public string GetPromptForAddReport(string informerPseudonym, string accusedPseudonym, string reportText)
+        public static string GetPromptForAddReport(string informerPseudonym, string accusedPseudonym, string reportText)
         {
             string query = "INSERT INTO reports (informer_pseudonym , accused_pseudonym , report) " +
                            $"VALUES ('{informerPseudonym}', '{accusedPseudonym}', '{reportText}');";
             return query;
         }
 
-        public string GetPromptForReturnRepoerts()
+        public static string GetPromptForReturnRepoerts()
         {
             return "SELECT * FROM reports;";
         }
 
-        public string GetPromptCheckExistingUser(string pseudonym)
+        public static string GetPromptCheckExistingUser(string pseudonym)
         {
             string query = $"SELECT * FROM people WHERE pseudonym = '{pseudonym}' LIMIT 1;";
             return query;
         }
 
 
-        public string GetCandidateEligibilityQuery()
+        public static string GetCandidateEligibilityQuery()
         {
             string query = "SELECT p.pseudonym, AVG(CHAR_LENGTH(r.report)) AS avg_length, p.status , COUNT(report) countr " +
                 "FROM reports r " +
@@ -49,7 +49,7 @@ namespace Maltinon
             return query;
         }
 
-        public string UpdeteToAgent(string pseudonym)
+        public static string UpdeteToAgent(string pseudonym)
         {
             string query = 
                 "UPDATE people\r\n" +
@@ -58,17 +58,17 @@ namespace Maltinon
             return query;
         }
 
-        public string GetPromtToReturnIdByPseudonym(string pseudonym)
+        public static string GetPromtToReturnIdByPseudonym(string pseudonym)
         {
             string query = $"SELECT * FROM people WHERE pseudonym = '{pseudonym}';";
             return query;
         }
-        public string GetPromtToReturnIdByName(string lastName, string firstName)
+        public static string GetPromtToReturnIdByName(string lastName, string firstName)
         {
             string query = $"SELECT pseudonym FROM people WHERE lastName = '{lastName}' AND firstName = '{firstName}';";
             return query;
         }
-        public string GetPromtReturnDangerousTargets()
+        public static string GetPromtReturnDangerousTargets()
         {
             string query = "SELECT p.lastName, p.firstName, r1.accused_pseudonym, r1.created_at, COUNT(*) AS a " +
                 "FROM reports r1 JOIN reports r2 ON r2.accused_pseudonym = r1.accused_pseudonym " +
@@ -77,6 +77,12 @@ namespace Maltinon
                 "GROUP BY r1.accused_pseudonym, r1.created_at, p.lastName, p.firstName " +
                 "HAVING a >= 3 " +
                 "ORDER BY r1.created_at; ";
+            return query;
+        }
+        public static string ReadLog(string log, string level, string location)
+        {
+            string query = $"INSERT INTO logs (log, level, location_log) " +
+                $"VALUES ('{log}', '{level}', '{location}');";
             return query;
         }
     }
