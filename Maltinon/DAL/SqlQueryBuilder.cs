@@ -39,7 +39,7 @@ namespace Maltinon
         public string GetCandidateEligibilityQuery()
         {
             string query = "SELECT p.pseudonym, AVG(CHAR_LENGTH(r.report)) AS avg_length, p.status , COUNT(report) countr " +
-                "FROM report r " +
+                "FROM reports r " +
                 " JOIN people p ON r.informer_pseudonym = p.pseudonym " +
                 " GROUP BY p.pseudonym " +
                 " HAVING avg_length > 100 " +
