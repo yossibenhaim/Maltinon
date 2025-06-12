@@ -65,7 +65,7 @@ namespace Maltinon
             }
         }
 
-        public void PrintResophns()
+        public void PrintResponses()
         {
             Console.WriteLine("\n📥 Fetching Reports...");
             PrintData(dal.GetQuery(SqlQueryBuilder.GetPromptForReturnRepoerts()));
@@ -85,7 +85,7 @@ namespace Maltinon
             Console.WriteLine("✅ Candidate eligibility updated.");
         }
 
-        public void AddRepoert(string informerPseudonym)
+        public void AddReport(string informerPseudonym)
         {
             Console.WriteLine("\n======================");
             Console.WriteLine("📋 Report Submission");
@@ -121,10 +121,10 @@ namespace Maltinon
         public string GetPseudonymForName(string lastName, string firstName)
         {
             var data = dal.GetQuery(SqlQueryBuilder.GetPromtToReturnIdByName(lastName, firstName));
-            return data.Count > 0 ? data[0]["pseudonym"] : CreatUserWhitName(firstName, lastName);
+            return data.Count > 0 ? data[0]["pseudonym"] : CreateUserWithName(firstName, lastName);
         }
 
-        public string CreatUser()
+        public string CreateUser()
         {
             string firstName = EnterFirstName();
             string lastName = EnterLastName();
@@ -143,7 +143,7 @@ namespace Maltinon
             return newPseudo;
         }
 
-        public string CreatUserWhitName(string firstName, string lastName)
+        public string CreateUserWithName(string firstName, string lastName)
         {
             string pseudonym = GeneratePseudonym(firstName, lastName);
             dal.SendQuery(SqlQueryBuilder.GetPromptForAddPerson(firstName, lastName, pseudonym, "infomant"));
@@ -163,7 +163,7 @@ namespace Maltinon
             }
         }
 
-        public void UpdeteStatusToAgent()
+        public void UpdateStatusToAgent()
         {
             Console.WriteLine("\n🔐 Agent Status Update");
             int count = 0;
