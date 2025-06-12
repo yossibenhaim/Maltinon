@@ -17,24 +17,32 @@ namespace Maltinon
         public DAL()
         {
             conn = new MySqlConnection(connStr);
+            SendQuery(SqlQueryBuilder.ReadLog("A connection to the database has been established.", "info", "DAL"));
         }
 
         public List<Dictionary<string, string>> GetQuery(string query)
         {
 
             conn.Open();
+            SendQuery(SqlQueryBuilder.ReadLog("The database file opens.", "info", "DAL"));
+
 
             try
             {
                 MySqlCommand command = new MySqlCommand(query, conn);
+                SendQuery(SqlQueryBuilder.ReadLog($"Creating an SQL command({query}) to connect to a database.", "info", "DAL.GetQuery"));
+
 
                 MySqlDataReader reader = command.ExecuteReader();
+                SendQuery(SqlQueryBuilder.ReadLog($"The query ({query}) has been sent to the database.", "info", "DAL.GetQuery"));
 
                 List<Dictionary<string, string>> respose = new List<Dictionary<string, string>>();
 
+                
                 while (reader.Read())
                 {
                     Dictionary<string, string> dict = new Dictionary<string, string>();
+
                     for (int i = 0; i < reader.FieldCount; i++)
                     {
                         dict[reader.GetName(i)] = reader.GetValue(i).ToString();
@@ -42,11 +50,15 @@ namespace Maltinon
                     respose.Add(dict);
                 }
                 conn.Close();
+                SendQuery(SqlQueryBuilder.ReadLog("The database file closes.", "info", "DAL"));
+
                 return respose;
             }catch (Exception e)
             {
+                SendQuery(SqlQueryBuilder.ReadLog($"You are getting an error..({e.Message})", "error", "DAL.GetQuery"));
                 Console.WriteLine(e.Message);
                 conn.Close();
+                SendQuery(SqlQueryBuilder.ReadLog("The database file closes.", "info", "DAL"));
                 return new List<Dictionary<string, string>>();
             }
         }
@@ -55,17 +67,26 @@ namespace Maltinon
         {
 
             conn.Open();
+            SendQuery(SqlQueryBuilder.ReadLog("The database file opens.", "info", "DAL"));
+
             try
             {
                 MySqlCommand command = new MySqlCommand(query, conn);
-
+                SendQuery(SqlQueryBuilder.ReadLog($"Creating an SQL command({query}) to connect to a database.", "info", "DAL.SendQuery"));
                 command.ExecuteNonQuery();
+                SendQuery(SqlQueryBuilder.ReadLog($"The query ({query}) has been sent to the database.", "info", "DAL.SendQuery"));
                 conn.Close();
+                SendQuery(SqlQueryBuilder.ReadLog("The database file closes.", "info", "DAL"));
+
+
             }
             catch (Exception e)
             {
+                SendQuery(SqlQueryBuilder.ReadLog($"You are getting an error..({e.Message})", "error", "DAL.SendQuery"));
                 Console.WriteLine(e.Message);
                 conn.Close();
+                SendQuery(SqlQueryBuilder.ReadLog("The database file closes.", "info", "DAL"));
+
             }
         }
     }

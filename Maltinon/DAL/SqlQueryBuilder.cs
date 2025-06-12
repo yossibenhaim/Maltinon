@@ -79,5 +79,11 @@ namespace Maltinon
                 "ORDER BY r1.created_at; ";
             return query;
         }
+        public static string ReadLog(string log, string level, string location)
+        {
+            string query = $"INSERT INTO logs (log, level, location_log) " +
+                $"VALUES ('{log}', '{level}', '{location}');";
+            return query;
+        }
     }
 }
