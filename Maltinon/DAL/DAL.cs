@@ -20,17 +20,17 @@ namespace Maltinon
             conn = new MySqlConnection(connStr);
 
             conn.Open();
-            Logs.SendLog(SqlQueryBuilder.ReadLog("The database file opens.", "info", "DAL"));
+            Logs.SendLog("The database file opens.", "info", "DAL");
 
 
             try
             {
                 MySqlCommand command = new MySqlCommand(query, conn);
-                Logs.SendLog(SqlQueryBuilder.ReadLog($"Creating an SQL command({query}) to connect to a database.", "info", "DAL.GetQuery"));
+                Logs.SendLog($"Creating an SQL command({query}) to connect to a database.", "info", "DAL.GetQuery");
 
 
                 MySqlDataReader reader = command.ExecuteReader();
-                Logs.SendLog(SqlQueryBuilder.ReadLog($"The query ({query}) has been sent to the database.", "info", "DAL.GetQuery"));
+                Logs.SendLog($"The query ({query}) has been sent to the database.", "info", "DAL.GetQuery");
 
                 List<Dictionary<string, string>> respose = new List<Dictionary<string, string>>();
 
@@ -45,14 +45,14 @@ namespace Maltinon
                     }
                     respose.Add(dict);
                 }
-                Logs.SendLog(SqlQueryBuilder.ReadLog("The database file closes.", "info", "DAL"));
+                Logs.SendLog("The database file closes.", "info", "DAL");
 
                 return respose;
             }catch (Exception e)
             {
-                Logs.SendLog(SqlQueryBuilder.ReadLog($"You are getting an error..({e.Message})", "error", "DAL.GetQuery"));
+                Logs.SendLog($"You are getting an error..({e.Message})", "error", "DAL.GetQuery");
                 Console.WriteLine(e.Message);
-                Logs.SendLog(SqlQueryBuilder.ReadLog("The database file closes.", "info", "DAL"));
+                Logs.SendLog("The database file closes.", "info", "DAL");
                 return new List<Dictionary<string, string>>();
             }
             finally
@@ -66,23 +66,23 @@ namespace Maltinon
             conn = new MySqlConnection(connStr);
 
             conn.Open();
-            Logs.SendLog(SqlQueryBuilder.ReadLog("The database file opens.", "info", "DAL"));
+            Logs.SendLog("The database file opens.", "info", "DAL");
 
             try
             {
                 MySqlCommand command = new MySqlCommand(query, conn);
-                Logs.SendLog(SqlQueryBuilder.ReadLog($"Creating an SQL command({query}) to connect to a database.", "info", "DAL.SendQuery"));
+                Logs.SendLog($"Creating an SQL command({query}) to connect to a database.", "info", "DAL.SendQuery");
                 command.ExecuteNonQuery();
-                Logs.SendLog(SqlQueryBuilder.ReadLog($"The query ({query}) has been sent to the database.", "info", "DAL.SendQuery"));
-                Logs.SendLog(SqlQueryBuilder.ReadLog("The database file closes.", "info", "DAL"));
+                Logs.SendLog($"The query ({query}) has been sent to the database.", "info", "DAL.SendQuery");
+                Logs.SendLog("The database file closes.", "info", "DAL");
 
 
             }
             catch (Exception e)
             {
-                Logs.SendLog(SqlQueryBuilder.ReadLog($"You are getting an error..({e.Message})", "error", "DAL.SendQuery"));
+                Logs.SendLog($"You are getting an error..({e.Message})", "error", "DAL.SendQuery");
                 Console.WriteLine(e.Message);
-                Logs.SendLog(SqlQueryBuilder.ReadLog("The database file closes.", "info", "DAL"));
+                Logs.SendLog("The database file closes.", "info", "DAL");
             }
             finally
             {

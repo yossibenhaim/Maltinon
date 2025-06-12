@@ -81,7 +81,7 @@ namespace Maltinon
         {
             List<Dictionary<string, string>> list = dal.GetQuery(SqlQueryBuilder.GetCandidateEligibilityQuery());
             foreach (Dictionary<string, string> dict in list)
-                Logs.SendLog(SqlQueryBuilder.UpdeteToAgent(dict["pseudonym"]));
+                dal.SendQuery(SqlQueryBuilder.UpdeteToAgent(dict["pseudonym"]));
             Console.WriteLine("✅ Candidate eligibility updated.");
         }
 
@@ -102,7 +102,7 @@ namespace Maltinon
             string firstName = FindFirstNameInRepoert(text);
             text = string.Join(" ", text.Split().Skip(2));
             string accusedpseudonym = GetPseudonymForName(lastName, firstName);
-            Logs.SendLog(SqlQueryBuilder.GetPromptForAddReport(informerPseudonym, accusedpseudonym, text));
+            dal.SendQuery(SqlQueryBuilder.GetPromptForAddReport(informerPseudonym, accusedpseudonym, text));
             Console.WriteLine("✅ Report submitted successfully. Thank you!");
         }
 
@@ -138,7 +138,7 @@ namespace Maltinon
             }
 
             string newPseudo = GeneratePseudonym(firstName, lastName);
-            Logs.SendLog(SqlQueryBuilder.GetPromptForAddPerson(firstName, lastName, newPseudo, "infomant"));
+            dal.SendQuery(SqlQueryBuilder.GetPromptForAddPerson(firstName, lastName, newPseudo, "infomant"));
             Console.WriteLine($"✅ New pseudonym created: {newPseudo}");
             return newPseudo;
         }
@@ -146,7 +146,7 @@ namespace Maltinon
         public string CreatUserWhitName(string firstName, string lastName)
         {
             string pseudonym = GeneratePseudonym(firstName, lastName);
-            Logs.SendLog(SqlQueryBuilder.GetPromptForAddPerson(firstName, lastName, pseudonym, "infomant"));
+            dal.SendQuery(SqlQueryBuilder.GetPromptForAddPerson(firstName, lastName, pseudonym, "infomant"));
             return pseudonym;
         }
 
@@ -173,7 +173,7 @@ namespace Maltinon
                 string pseudonym = Console.ReadLine();
                 if (CheckIfAgent(pseudonym))
                 {
-                    Logs.SendLog(SqlQueryBuilder.UpdeteToAgent(pseudonym));
+                    dal.SendQuery(SqlQueryBuilder.UpdeteToAgent(pseudonym));
                     Console.WriteLine("✅ Status updated to agent.");
                     break;
                 }
