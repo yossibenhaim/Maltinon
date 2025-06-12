@@ -17,12 +17,10 @@ namespace Maltinon
             Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
             Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US");
             Console.OutputEncoding = System.Text.Encoding.UTF8;
-            DAL dal = new DAL();
-            dal.SendQuery(SqlQueryBuilder.ReadLog($"The software started running.", "info", "Program.Main"));
+            Logs.SendLog(SqlQueryBuilder.ReadLog($"The software started running", "info", "Program.Main"));
             menu menu = new menu();
             menu.startNemu();
-            dal.SendQuery(SqlQueryBuilder.ReadLog($"The software has finished running..", "info", "Program.Main"));
-
+            Logs.SendLog(SqlQueryBuilder.ReadLog($"The software has finished running", "info", "Program.Main"));
         }
     }
 }

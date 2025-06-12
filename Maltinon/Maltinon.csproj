@@ -96,8 +96,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DAL\DAL.cs" />
-    <Compile Include="DAL\Logs.cs" />
     <Compile Include="DAL\SqlQueryBuilder.cs" />
+    <Compile Include="Logs.cs" />
     <Compile Include="menager.cs" />
     <Compile Include="nemu\menu.cs" />
     <Compile Include="prints\Prints.cs" />
